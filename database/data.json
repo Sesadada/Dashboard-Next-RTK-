@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Dean Lych",
+    "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
+    "email": "deanlych@hot.es",
+    "salary": "25000",
+    "date": "2022-06-08",
+    "status": "Active"
+  },
+  {
+    "id": 2,
+    "name": "Augusto Reyes",
+    "avatar": "https://randomuser.me/api/portraits/men/10.jpg",
+    "email": "august@hot.es",
+    "salary": "3000",
+    "date": "2022-06-20",
+    "status": "Inactive"
+  },
+  {
+    "id": 3,
+    "name": "Andrea Ponti",
+    "avatar": "https://randomuser.me/api/portraits/men/3.jpg",
+    "email": "andreah@hot.es",
+    "salary": "80000",
+    "date": "2021-03-08",
+    "status": "Active"
+  },
+  {
+    "id": 4,
+    "name": "Clara Pasos",
+    "avatar": "https://randomuser.me/api/portraits/women/1.jpg",
+    "email": "andrea@hot.es",
+    "salary": "100000",
+    "date": "2020-10-02",
+    "status": "Active"
+  }
+]
