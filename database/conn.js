@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
-const MONGOURI = process.env.MONGO_URI;
+const MONGOURI = process.env.NEXT_PUBLIC_MONGO_URI;
+//const MONGOURI =
+// "mongodb+srv://sesadada:445244@dashboardcrud.lulq1es.mongodb.net/?retryWrites=true&w=majority";
 const connectMongo = async () => {
   try {
     const { connection } = await mongoose.connect(MONGOURI);
