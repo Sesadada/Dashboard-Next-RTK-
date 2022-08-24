@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     domains: ["static.coinstats.app", "randomuser.me"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
