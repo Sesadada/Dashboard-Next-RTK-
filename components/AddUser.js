@@ -3,13 +3,19 @@ import Success from "./Success";
 import { useQueryClient, useMutation } from "react-query";
 import { addUser, getUsers } from "../lib/helper";
 import Bug from "./Bug";
+import { useDispatch } from "react-redux";
+import { toggleChangeAction } from "../redux/reducer";
 
 const AddUser = ({ formData, setFormData }) => {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const addMutation = useMutation(addUser, {
     onSuccess: () => {
       queryClient.prefetchQuery("users", getUsers);
+      setTimeout(function () {
+        dispatch(toggleChangeAction());
+      }, 5000);
     },
   });
 
@@ -36,9 +42,10 @@ const AddUser = ({ formData, setFormData }) => {
   if (addMutation.isLoading) return <div>Loading</div>;
   if (addMutation.isError) return <Bug message={addMutation.error.message} />;
   if (addMutation.isSuccess) return <Success message="Added successfully" />;
+
   return (
     <form
-      className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 py-4"
+      className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 py-4 transition-all duration-1000"
       onSubmit={handleSubmit}
     >
       <div className="input-type">

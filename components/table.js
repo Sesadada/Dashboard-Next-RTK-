@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { useQuery, useQueryClient } from "react-query";
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { getUsers } from "../lib/helper";
-import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import {
   toggleChangeAction,
@@ -48,16 +48,14 @@ export default function Table() {
 }
 
 function Tr({ _id, name, avatar, email, salary, date, status }) {
+  const queryClient = useQueryClient();
   const visible = useSelector((state) => state.app.client.toggleForm);
-  console.log("visible", visible);
   const dispatch = useDispatch();
   const [firstname, lastname] = name ? name.split(" ") : formData;
 
   const onUpdate = () => {
-    dispatch(toggleChangeAction(_id));
-    if (visible) {
-      dispatch(updateAction(_id));
-    }
+    dispatch(toggleChangeAction());
+    dispatch(updateAction(_id));
   };
 
   const onDelete = () => {

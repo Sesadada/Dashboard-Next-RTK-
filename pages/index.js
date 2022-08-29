@@ -34,7 +34,7 @@ export default function Home() {
       await dispatch(deleteAction(null));
     }
   };
-
+  console.log(visible);
   return (
     <section>
       <Head>

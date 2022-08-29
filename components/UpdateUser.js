@@ -1,18 +1,30 @@
 import { BiBrush, BiPlus } from "react-icons/bi";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { getUser, getUsers, updateUser } from "../lib/helper";
+import { useDispatch } from "react-redux";
+import { updateAction, toggleChangeAction } from "../redux/reducer";
+import { useEffect, useState } from "react";
 
 const UpdateUser = ({ formId, formData, setFormData }) => {
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = useQuery(["users", formId], () =>
     getUser(formId)
   );
+  const [local, setLocal] = useState();
+
+  useEffect(() => {
+    setLocal(data);
+  }, [data]);
+
   const UpdateMutation = useMutation((newData) => updateUser(formId, newData), {
-    onSuccess: async (data) => queryClient.prefetchQuery("users", getUsers),
+    onSuccess: async (data) => {
+      queryClient.prefetchQuery("users", getUsers);
+    },
   });
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
-
   const { name, avatar, salary, date, email, status } = data;
   const [firstname, lastname] = name ? name.split(" ") : formData;
 
@@ -22,11 +34,13 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       formData.lastname ?? lastname
     }`;
     let updated = Object.assign({}, data, formData, { name: userName });
-
+    console.log("updated obj", updated);
     UpdateMutation.mutate(updated);
+    dispatch(updateAction(""));
+    dispatch(toggleChangeAction());
   };
+  if (local) console.log("local from component", local);
   //if (Object.keys(formData).length > 0) return <Success message="Data added" />;
-
   return (
     <form
       className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 py-4"
@@ -34,6 +48,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
     >
       <div className="input-type">
         <input
+          key={firstname}
           onChange={setFormData}
           defaultValue={firstname}
           type="text"
@@ -44,6 +59,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       </div>
       <div className="input-type">
         <input
+          key={lastname}
           onChange={setFormData}
           defaultValue={lastname}
           type="text"
@@ -54,6 +70,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       </div>
       <div className="input-type">
         <input
+          key={email}
           onChange={setFormData}
           defaultValue={email}
           type="text"
@@ -64,6 +81,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       </div>
       <div className="input-type">
         <input
+          key={salary}
           onChange={setFormData}
           defaultValue={salary}
           type="text"
@@ -74,6 +92,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       </div>
       <div className="input-type">
         <input
+          key={date}
           onChange={setFormData}
           defaultValue={date}
           type="date"
@@ -85,6 +104,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
       <div className="flex gap-10 items-center">
         <div className="form-check">
           <input
+            key={status}
             onChange={setFormData}
             defaultChecked={status == "Active"}
             type="radio"
@@ -99,6 +119,7 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
         </div>
         <div className="form-check">
           <input
+            key={status}
             onChange={setFormData}
             defaultChecked={status !== "Active"}
             type="radio"
@@ -112,7 +133,10 @@ const UpdateUser = ({ formId, formData, setFormData }) => {
           </label>
         </div>
       </div>
-      <button className="flex justify-center text-md w-2/6 bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500">
+      <button
+        onClick={() => console.log(lastname)}
+        className="flex justify-center text-md w-2/6 bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
+      >
         Update{" "}
         <span className="px-1">
           <BiBrush size={24} />

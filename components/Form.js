@@ -14,9 +14,8 @@ const Form = () => {
   const [formData, setFormData] = useReducer(formReducer, {});
 
   const formId = useSelector((state) => state.app.client.formId);
-  console.log("formId", formId);
   return (
-    <div className="container mx-auto py-5">
+    <div className="container mx-auto py-5 transition-all duration-1000">
       {formId
         ? UpdateUser({ formId, formData, setFormData })
         : AddUser({ formData, setFormData })}
